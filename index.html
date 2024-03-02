@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Flashcards</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav {
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .flashcard {
+        width: 300px;
+        height: 200px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        flex-direction: column;
+        margin: 20px auto;
+    }
+
+    .flashcard:hover {
+        transform: scale(1.05);
+    }
+
+    .flashcard .content {
+        display: none;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .flashcard.flipped .content {
+        display: block;
+    }
+</style>
+</head>
+<body>
+<nav>
+    <h1>Language Flashcards</h1>
+    <div class="language-options">
+        <label><input type="radio" name="language" value="english" checked> English</label>
+        <label><input type="radio" name="language" value="spanish"> Spanish</label>
+        <label><input type="radio" name="language" value="sanskrit"> Sanskrit</label>
+        <label><input type="radio" name="language" value="german"> German</label>
+    </div>
+</nav>
+<div class="flashcard" onclick="flipCard(this)">
+    <div class="content">
+        <h2>Word</h2>
+        <p>Translation</p>
+    </div>
+</div>
+
+<script>
+    const flashcardData = {
+        english: [
+            { word: 'Hello', translation: 'Hola' },
+            { word: 'Goodbye', translation: 'Adiós' },
+            { word: 'Thank you', translation: 'Gracias' },
+            { word: 'Yes', translation: 'Sí' },
+            { word: 'No', translation: 'No' }
+        ],
+        spanish: [
+            { word: 'Hola', translation: 'Hello' },
+            { word: 'Adiós', translation: 'Goodbye' },
+            { word: 'Gracias', translation: 'Thank you' },
+            { word: 'Sí', translation: 'Yes' },
+            { word: 'No', translation: 'No' }
+        ],
+        sanskrit: [
+            { word: 'नमस्ते', translation: 'Hello' },
+            { word: 'पुनर्मिलामि', translation: 'Goodbye' },
+            { word: 'धन्यवादः', translation: 'Thank you' },
+            { word: 'एवम्', translation: 'Yes' },
+            { word: 'न', translation: 'No' }
+        ],
+        german: [
+            { word: 'Hallo', translation: 'Hello' },
+            { word: 'Auf Wiedersehen', translation: 'Goodbye' },
+            { word: 'Danke', translation: 'Thank you' },
+            { word: 'Ja', translation: 'Yes' },
+            { word: 'Nein', translation: 'No' }
+        ]
+    };
+
+    let currentLanguage = 'english'; // Default language
+
+    function flipCard(card) {
+        card.classList.toggle('flipped');
+        const content = card.querySelector('.content');
+        const language = card.querySelector('.language');
+        const word = flashcardData[currentLanguage][Math.floor(Math.random() * flashcardData[currentLanguage].length)];
+        content.innerHTML = `
+            <h2>${word.word}</h2>
+            <p>${word.translation}</p>
+        `;
+        language.textContent = currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1);
+    }
+
+    document.querySelectorAll('input[name="language"]').forEach(input => {
+        input.addEventListener('change', () => {
+            currentLanguage = input.value;
+            flipCard(document.querySelector('.flashcard')); // Update current card with new language
+        });
+    });
+</script>
+</body>
+</html>
